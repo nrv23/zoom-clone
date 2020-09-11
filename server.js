@@ -30,5 +30,9 @@ io.on('connection',socket => { //on es un listener que escucha cuando el evento 
         socket.join(room_id); // un usuario se ha unido
         // la variable id es el id del usuario conectado
         socket.to(room_id).broadcast.emit('new-user',id);
+
+        socket.on("message",(message) => {
+            io.to(room_id).emit('createMessage', message);
+        })
     })
 })

@@ -30,6 +30,23 @@ navigator.mediaDevices.getUserMedia({ // obtener la funcionalidades del navegado
     socket.on('new-user',userId => { // el id del usuario conectado es lo que emite el socket en el servidor al generarse 
         connectToNewUser(userId,stream)
     })
+
+    let msg = $('input');
+
+    $('html').keydown((e) => { // escuchar cuando se teclea algo 
+        if(e.which == 13 && msg.val().length !== 0){ // which es el codigo de la tecla, 13 es enter
+            // si presiona enter y el campo input tiene al menos un caracter entonces
+            // va emitir en el evento socket un mensaje
+            socket.emit('message', msg.val());
+            msg.val("");
+        }
+    }) 
+
+
+    socket.on('createMessage', message => {
+        console.log(message);
+        $('.messages').append(`<li class="message"><b>user: </b>${message}</li>`);
+    })
 })
 
 peer.on('open', id => { // el id es generado automaticamente
@@ -62,4 +79,5 @@ const agregarVideoStream = (videoTag, stream) => {
     })
     div.append(videoTag);
 }
+
 
