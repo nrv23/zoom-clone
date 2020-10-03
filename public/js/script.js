@@ -3,7 +3,7 @@ const socket = io('/'); // se le pasa la direccion del servidor donde se va cone
 const peer = new Peer(undefined,{
     path: '/peerjs', // esta ruta se asigna en el backend,
     host: '/', //el host donde va enviar la informacion
-    port: '3030' // puerto donde escucha el backend
+    port: '443' // puerto donde escucha el backend
 });
 const div = document.getElementById("video-grid");
 const miVideo = document.createElement("video");
