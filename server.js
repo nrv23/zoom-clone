@@ -18,7 +18,7 @@ app.use('/', routes());
 // asignarle la instancia del servidor donde van a correr los sockets
 const PORT = process.env.PORT || 3030;
 
-server.listen(PORT || 3030, () => {
+server.listen(PORT, () => {
     console.log(`SERVIDOR ESCUCHANDO EN PUERTO ${PORT}`);
 })
 // Eventos del socket
@@ -35,4 +35,4 @@ io.on('connection',socket => { //on es un listener que escucha cuando el evento 
             io.to(room_id).emit('createMessage', message);
         })
     })
-})
+}) // hacer declaracion de hacienda hoy sin falta

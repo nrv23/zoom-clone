@@ -41,11 +41,11 @@ navigator.mediaDevices.getUserMedia({ // obtener la funcionalidades del navegado
             msg.val("");
         }
     }) 
-
-
-    socket.on('createMessage', message => {
+   
+     socket.on('createMessage', message => {
         console.log(message);
         $('.messages').append(`<li class="message"><b>user: </b>${message}</li>`);
+        scrollToBottom(); // poner un scrol en la caja de los mensajes y que siempre haga scroll en el ultimo mensaje enviado
     })
 })
 
@@ -58,6 +58,11 @@ peer.on('open', id => { // el id es generado automaticamente
     );
 
 })
+
+const scrollToBottom = () => {
+    let d = $(".main__chat_window");
+    d.scrollTop(d.prop("scrollHeigth"));
+}
 
 const connectToNewUser = (userId,stream) => { 
     console.log("new user",userId);
@@ -80,4 +85,69 @@ const agregarVideoStream = (videoTag, stream) => {
     div.append(videoTag);
 }
 
+const muteUnmute = () => { // habilitar o deshabilitar el microfono
+    const enabled = videoStream.getAudioTracks()[0].enabled;
+    console.log(enabled);
+    if(enabled){
+        setUnmuteButton();
+        videoStream.getAudioTracks()[0].enabled = false;
+       
+    } else {
+        setMuteButton();
+        videoStream.getAudioTracks()[0].enabled = true;
+    }
+}
+
+
+const setUnmuteButton = () => {
+
+    const html = `
+        <i class="unmute fas fa-microphone-slash"></i>
+        <span>Unmute</a>
+    `;
+
+    document.querySelector(".main__mute_button").innerHTML= html;
+}
+
+const setMuteButton = () => {
+    
+    const html = `
+        <i class="fas fa-microphone"></i>
+        <span>Mute</a>
+    `;
+
+    document.querySelector(".main__mute_button").innerHTML= html;
+}
+
+// funcion para mostrar o esconder el video
+const playStop = () => { // habilitar o deshabilitar el microfono
+    const enabled = videoStream.getVideoTracks()[0].enabled;
+    if(enabled){
+        setPlayVideo();
+        videoStream.getVideoTracks()[0].enabled = false;
+       
+    } else {
+        setStopVideo();
+        videoStream.getVideoTracks()[0].enabled = true;
+    }
+}
+
+const setStopVideo = () => {
+    const html = `
+        <i class="fas fa-video"></i> 
+        <span>Stop Video</span>
+    `;
+
+    document.querySelector(".main__video_button").innerHTML= html;
+} 
+
+const setPlayVideo = () => {
+
+    const html = `
+        <i class="stop fas fa-video-slash"></i> 
+        <span>Play</span>
+    `;
+
+    document.querySelector(".main__video_button").innerHTML= html;
+}
 
